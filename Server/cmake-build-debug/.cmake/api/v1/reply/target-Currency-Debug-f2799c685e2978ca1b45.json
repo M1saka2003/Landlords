@@ -1,0 +1,130 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "Currency/libCurrency.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"Currency/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 6,
+				"parent" : 2
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				},
+				{
+					"fragment" : "-std=gnu++20"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/mnt/c/Users/M1saka/Desktop/\u6597\u5730\u4e3b/Server/Currency"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/mnt/c/Users/M1saka/Desktop/\u6597\u5730\u4e3b/Server/Http"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/mnt/c/Users/M1saka/Desktop/\u6597\u5730\u4e3b/Server/Reactor"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/mnt/c/Users/M1saka/Desktop/\u6597\u5730\u4e3b/Server/Tcp"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/mnt/c/Users/M1saka/Desktop/\u6597\u5730\u4e3b/Server/Thread"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"id" : "Currency::@e0e0b9537ea291255746",
+	"name" : "Currency",
+	"nameOnDisk" : "libCurrency.a",
+	"paths" : 
+	{
+		"build" : "Currency",
+		"source" : "Currency"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Currency/Buffer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Currency/Channel.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

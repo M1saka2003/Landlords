@@ -1,0 +1,2 @@
+/usr/bin/ar qc libCurrency.a CMakeFiles/Currency.dir/Buffer.cpp.o CMakeFiles/Currency.dir/Channel.cpp.o
+/usr/bin/ranlib libCurrency.a
