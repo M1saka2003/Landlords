@@ -1,2 +1,0 @@
-/usr/bin/ar qc libHttp.a CMakeFiles/Http.dir/HttpRequest.cpp.o CMakeFiles/Http.dir/HttpResponse.cpp.o
-/usr/bin/ranlib libHttp.a
