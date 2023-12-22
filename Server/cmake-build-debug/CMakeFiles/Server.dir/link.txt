@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Server.dir/main.cpp.o -o ../bin/Server  Tcp/libTcp.a Http/libHttp.a Reactor/libReactor.a Thread/libThread.a Currency/libCurrency.a 
