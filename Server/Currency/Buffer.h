@@ -1,48 +1,57 @@
-#pragma once
-#include <string>
-using namespace std;
+#ifndef SERVER_BUFFER
+#define SERVER_BUFFER
 
-class Buffer
-{
+#include <string>
+
+class Buffer {
 public:
-    Buffer(int size);
+    explicit Buffer(std::size_t size);
+
     ~Buffer();
 
     // 扩容
-    void extendRoom(int size);
+    void extendRoom(std::size_t size);
+
     // 得到剩余的可写的内存容量
-    inline int writeableSize()
-    {
+    [[nodiscard]]std::size_t writeableSize() const {
         return m_capacity - m_writePos;
     }
+
     // 得到剩余的可读的内存容量
-    inline int readableSize()
-    {
+    [[nodiscard]]std::size_t readableSize() const {
         return m_writePos - m_readPos;
     }
+
     // 写内存 1. 直接写 2. 接收套接字数据
-    int appendString(const char* data, int size);
-    int appendString(const char* data);
-    int appendString(const string data);
+    int appendString(const char *data, std::size_t size);
+
+    int appendString(const char *data);
+
+    int appendString(const std::string &data);
+
     int socketRead(int fd);
+
     // 根据\r\n取出一行, 找到其在数据块中的位置, 返回该位置
-    char* findCRLF();
+    char *findCRLF();
+
     // 发送数据
-    int sendData(int socket);    // 指向内存的指针
+    std::size_t sendData(int socket);    // 指向内存的指针
     // 得到读数据的起始位置
-    inline char* data()
-    {
+    char *data() {
         return m_data + m_readPos;
     }
-    inline int readPosIncrease(int count)
-    {
+
+    std::size_t readPosIncrease(int count) {
         m_readPos += count;
         return m_readPos;
     }
+
 private:
-    char* m_data;
-    int m_capacity;
-    int m_readPos = 0;
-    int m_writePos = 0;
+    char *m_data;
+    std::size_t m_capacity;
+    std::size_t m_readPos = 0;
+    std::size_t m_writePos = 0;
 };
+
+#endif
 

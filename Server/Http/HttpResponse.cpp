@@ -1,20 +1,15 @@
 #include "HttpResponse.h"
-#include <strings.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 HttpResponse::HttpResponse() {
     m_statusCode = StatusCode::Unknown;
     m_headers.clear();
-    m_fileName = string();
+    m_fileName = {};
     sendDataFunc = nullptr;
 }
 
-HttpResponse::~HttpResponse() {
-}
+HttpResponse::~HttpResponse() = default;
 
-void HttpResponse::addHeader(const string key, const string value) {
+void HttpResponse::addHeader(const std::string& key, const std::string& value) {
     if (key.empty() || value.empty()) {
         return;
     }
@@ -28,8 +23,8 @@ void HttpResponse::prepareMsg(Buffer *sendBuf, int socket) {
     sprintf(tmp, "HTTP/1.1 %d %s\r\n", code, m_info.at(code).data());
     sendBuf->appendString(tmp);
     // 响应头
-    for (auto it = m_headers.begin(); it != m_headers.end(); ++it) {
-        sprintf(tmp, "%s: %s\r\n", it->first.data(), it->second.data());
+    for (auto & m_header : m_headers) {
+        sprintf(tmp, "%s: %s\r\n", m_header.first.data(), m_header.second.data());
         sendBuf->appendString(tmp);
     }
     // 空行

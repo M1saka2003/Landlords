@@ -1,26 +1,28 @@
 //#define _GNU_SOURCE
 #include "HttpRequest.h"
-#include <stdio.h>
+#include <cstdio>
 #include <strings.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include "TcpConnection.h"
-#include <assert.h>
-#include <ctype.h>
+#include <cassert>
+#include <cctype>
+#include <iostream>
 
 char *
-HttpRequest::splitRequestLine(const char *start, const char *end, const char *sub, function<void(string)> callback) {
+HttpRequest::splitRequestLine(const char *start, const char *end, const char *sub,
+                              const std::function<void(std::string)> &callback) {
     char *space = const_cast<char *>(end);
     if (sub != nullptr) {
         space = static_cast<char *>(memmem(start, end - start, sub, strlen(sub)));
         assert(space != nullptr);
     }
     int length = space - start;
-    callback(string(start, length));
+    callback(std::string(start, length));
     return space + 1;
 }
 
@@ -37,30 +39,27 @@ int HttpRequest::hexToDec(char c) {
     return 0;
 }
 
-HttpRequest::HttpRequest() {
-    reset();
-}
+HttpRequest::HttpRequest() = default;
 
-HttpRequest::~HttpRequest() {
-}
+HttpRequest::~HttpRequest() = default;
 
-void HttpRequest::reset() {
+[[maybe_unused]] void HttpRequest::reset() {
     m_curState = PrecessState::ParseReqLine;
-    m_method = m_url = m_version = string(); // ""
+    m_method = m_url = m_version = {};
     m_reqHeaders.clear();
 }
 
-void HttpRequest::addHeader(const string key, const string value) {
+void HttpRequest::addHeader(const std::string &key, const std::string &value) {
     if (key.empty() || value.empty()) {
         return;
     }
     m_reqHeaders.insert(make_pair(key, value));
 }
 
-string HttpRequest::getHeader(const string key) {
+[[maybe_unused]] std::string HttpRequest::getHeader(const std::string &key) {
     auto item = m_reqHeaders.find(key);
     if (item == m_reqHeaders.end()) {
-        return string();
+        return {};
     }
     return item->second;
 }
@@ -74,11 +73,11 @@ bool HttpRequest::parseRequestLine(Buffer *readBuf) {
     int lineSize = end - start;
 
     if (lineSize > 0) {
-        auto methodFunc = bind(&HttpRequest::setMethod, this, placeholders::_1);
+        auto methodFunc = std::bind(&HttpRequest::setMethod, this, std::placeholders::_1);
         start = splitRequestLine(start, end, " ", methodFunc);
-        auto urlFunc = bind(&HttpRequest::seturl, this, placeholders::_1);
+        auto urlFunc = std::bind(&HttpRequest::seturl, this, std::placeholders::_1);
         start = splitRequestLine(start, end, " ", urlFunc);
-        auto versionFunc = bind(&HttpRequest::setVersion, this, placeholders::_1);
+        auto versionFunc = std::bind(&HttpRequest::setVersion, this, std::placeholders::_1);
         splitRequestLine(start, end, nullptr, versionFunc);
         // 为解析请求头做准备
         readBuf->readPosIncrease(lineSize + 2);
@@ -100,8 +99,8 @@ bool HttpRequest::parseRequestHeader(Buffer *readBuf) {
             int keyLen = middle - start;
             int valueLen = end - middle - 2;
             if (keyLen > 0 && valueLen > 0) {
-                string key(start, keyLen);
-                string value(middle + 2, valueLen);
+                std::string key(start, keyLen);
+                std::string value(middle + 2, valueLen);
                 addHeader(key, value);
             }
             // 移动读数据的位置
@@ -130,6 +129,7 @@ bool HttpRequest::parseHttpRequest(Buffer *readBuf, HttpResponse *response, Buff
                 flag = parseRequestHeader(readBuf);
                 break;
             case PrecessState::ParseReqBody:
+                [] {}(); // 这里写个空lambda防止CLion报warning
                 break;
             default:
                 break;
@@ -155,15 +155,18 @@ bool HttpRequest::processHttpRequest(HttpResponse *response) {
     }
     m_url = decodeMsg(m_url);
     // 处理客户端请求的静态资源(目录或者文件)
-    const char *file = nullptr;
+    const char *file;
+    // 根目录为main.cpp中设置的目录
     if (strcmp(m_url.data(), "/") == 0) {
+        // 访问根目录
         file = "./";
     }
     else {
+        // 跳过 '/' 字符相对目录
         file = m_url.data() + 1;
     }
     // 获取文件属性
-    struct stat st;
+    struct stat st{};
     int ret = stat(file, &st);
     if (ret == -1) {
         // 文件不存在 -- 回复404
@@ -174,7 +177,7 @@ bool HttpRequest::processHttpRequest(HttpResponse *response) {
         // 响应头
         response->addHeader("Content-type", getFileType(".html"));
         response->sendDataFunc = sendFile;
-        return 0;
+        return false;
     }
 
     response->setFileName(file);
@@ -182,27 +185,23 @@ bool HttpRequest::processHttpRequest(HttpResponse *response) {
     // 判断文件类型
     if (S_ISDIR(st.st_mode)) {
         // 把这个目录中的内容发送给客户端
-        //sendHeadMsg(cfd, 200, "OK", getFileType(".html"), -1);
-        //sendDir(file, cfd);
         // 响应头
         response->addHeader("Content-type", getFileType(".html"));
         response->sendDataFunc = sendDir;
     }
     else {
         // 把文件的内容发送给客户端
-        //sendHeadMsg(cfd, 200, "OK", getFileType(file), st.st_size);
-        //sendFile(file, cfd);
         // 响应头
         response->addHeader("Content-type", getFileType(file));
-        response->addHeader("Content-length", to_string(st.st_size));
+        response->addHeader("Content-length", std::to_string(st.st_size));
         response->sendDataFunc = sendFile;
     }
 
     return false;
 }
 
-string HttpRequest::decodeMsg(string msg) {
-    string str = string();
+std::string HttpRequest::decodeMsg(std::string msg) {
+    std::string str{};
     const char *from = msg.data();
     for (; *from != '\0'; ++from) {
         // isxdigit -> 判断字符是不是16进制格式, 取值在 0-f
@@ -225,7 +224,7 @@ string HttpRequest::decodeMsg(string msg) {
     return str;
 }
 
-const string HttpRequest::getFileType(const string name) {
+const std::string HttpRequest::getFileType(const std::string& name) {
     // a.jpg a.mp4 a.html
     // 自右向左查找‘.’字符, 如不存在返回NULL
     const char *dot = strrchr(name.data(), '.');
@@ -265,8 +264,8 @@ const string HttpRequest::getFileType(const string name) {
     return "text/plain; charset=utf-8";
 }
 
-void HttpRequest::sendDir(string dirName, Buffer *sendBuf, int cfd) {
-    char buf[4096] = {0};
+void HttpRequest::sendDir(std::string dirName, Buffer *sendBuf, int cfd) {
+    char buf[4096]{};
     sprintf(buf, "<html><head><title>%s</title></head><body><table>", dirName.data());
     struct dirent **namelist;
     int num = scandir(dirName.data(), &namelist, nullptr, alphasort);
@@ -305,12 +304,12 @@ void HttpRequest::sendDir(string dirName, Buffer *sendBuf, int cfd) {
     free(namelist);
 }
 
-void HttpRequest::sendFile(string fileName, Buffer *sendBuf, int cfd) {
+void HttpRequest::sendFile(std::string fileName, Buffer *sendBuf, int cfd) {
     // 1. 打开文件
     int fd = open(fileName.data(), O_RDONLY);
     assert(fd > 0);
 #if 1
-    while (1) {
+    while (true) {
         char buf[1024];
         int len = read(fd, buf, sizeof buf);
         if (len > 0) {

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SERVER_SELECTDISPATCHER
+#define SERVER_SELECTDISPATCHER
 
 #include "Channel.h"
 #include "EventLoop.h"
@@ -6,13 +7,11 @@
 #include <string>
 #include <sys/select.h>
 
-using namespace std;
-
 class SelectDispatcher : public Dispatcher {
 public:
-    SelectDispatcher(EventLoop *evloop);
+    explicit SelectDispatcher(EventLoop *evloop);
 
-    ~SelectDispatcher();
+    ~SelectDispatcher() override;
 
     // 添加
     int add() override;
@@ -24,7 +23,7 @@ public:
     int modify() override;
 
     // 事件监测
-    int dispatch(int timeout = 2) override; // 单位: s
+    int dispatch(int timeout) override; // 单位: s
 
 private:
     void setFdSet();
@@ -32,7 +31,9 @@ private:
     void clearFdSet();
 
 private:
-    fd_set m_readSet;
-    fd_set m_writeSet;
+    fd_set m_readSet{};
+    fd_set m_writeSet{};
     const int m_maxSize = 1024;
 };
+
+#endif

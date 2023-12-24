@@ -3,7 +3,7 @@
 #include "Log.h"
 
 int TcpConnection::processRead(void *arg) {
-    TcpConnection *conn = static_cast<TcpConnection *>(arg);
+    auto *conn = reinterpret_cast<TcpConnection *>(arg);
     // 接收数据
     int socket = conn->m_channel->getSocket();
     int count = conn->m_readBuf->socketRead(socket);
@@ -11,38 +11,26 @@ int TcpConnection::processRead(void *arg) {
     Debug("接收到的http请求数据: %s", conn->m_readBuf->data());
     if (count > 0) {
         // 接收到了 http 请求, 解析http请求
-#ifdef MSG_SEND_AUTO
-        conn->m_channel->writeEventEnable(true);
-        conn->m_evLoop->addTask(conn->m_channel, ElemType::MODIFY);
-#endif
         bool flag = conn->m_request->parseHttpRequest(
                 conn->m_readBuf, conn->m_response,
                 conn->m_writeBuf, socket);
         if (!flag) {
             // 解析失败, 回复一个简单的html
-            string errMsg = "Http/1.1 400 Bad Request\r\n\r\n";
+            std::string errMsg = "Http/1.1 400 Bad Request\r\n\r\n";
             conn->m_writeBuf->appendString(errMsg);
         }
     }
-    else {
-#ifdef MSG_SEND_AUTO
-        // 断开连接
-        conn->m_evLoop->addTask(conn->m_channel, ElemType::DELETE);
-#endif
 
-    }
-#ifndef MSG_SEND_AUTO
     // 断开连接
     conn->m_evLoop->addTask(conn->m_channel, ElemType::DELETE);
-#endif
     return 0;
 }
 
 int TcpConnection::processWrite(void *arg) {
     Debug("开始发送数据了(基于写事件发送)....");
-    TcpConnection *conn = static_cast<TcpConnection *>(arg);
+    auto *conn = reinterpret_cast<TcpConnection *>(arg);
     // 发送数据
-    int count = conn->m_writeBuf->sendData(conn->m_channel->getSocket());
+    std::size_t count = conn->m_writeBuf->sendData(conn->m_channel->getSocket());
     if (count > 0) {
         // 判断数据是否被全部发送出去了
         if (conn->m_writeBuf->readableSize() == 0) {
@@ -59,9 +47,7 @@ int TcpConnection::processWrite(void *arg) {
 
 int TcpConnection::destroy(void *arg) {
     auto *conn = static_cast<TcpConnection *>(arg);
-    if (conn != nullptr) {
-        delete conn;
-    }
+    delete conn;
     return 0;
 }
 
@@ -72,7 +58,7 @@ TcpConnection::TcpConnection(int fd, EventLoop *evloop) {
     // http
     m_request = new HttpRequest;
     m_response = new HttpResponse;
-    m_name = "Connection-" + to_string(fd);
+    m_name = "Connection-" + std::to_string(fd);
     m_channel = new Channel(fd, FDEvent::ReadEvent, processRead, processWrite, destroy, this);
     evloop->addTask(m_channel, ElemType::ADD);
 }
@@ -86,5 +72,5 @@ TcpConnection::~TcpConnection() {
         delete m_response;
         m_evLoop->freeChannel(m_channel);
     }
-    Debug("连接断开, 释放资源, gameover, connName: %s", m_name.data());
+    Debug("连接断开, 释放资源, end, connName: %s", m_name.data());
 }

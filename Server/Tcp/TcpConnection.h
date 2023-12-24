@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SERVER_TCPCONNECTION
+#define SERVER_TCPCONNECTION
+
 #include "EventLoop.h"
 #include "Buffer.h"
 #include "Channel.h"
@@ -7,22 +9,27 @@
 
 //#define MSG_SEND_AUTO
 
-class TcpConnection
-{
+class TcpConnection {
 public:
-    TcpConnection(int fd, EventLoop* evloop);
+    TcpConnection(int fd, EventLoop *evloop);
+
     ~TcpConnection();
 
-    static int processRead(void* arg);
-    static int processWrite(void* arg);
-    static int destroy(void* arg);
+    static int processRead(void *arg);
+
+    static int processWrite(void *arg);
+
+    static int destroy(void *arg);
+
 private:
-    string m_name;
-    EventLoop* m_evLoop;
-    Channel* m_channel;
-    Buffer* m_readBuf;
-    Buffer* m_writeBuf;
+    std::string m_name;
+    EventLoop *m_evLoop;
+    Channel *m_channel;
+    Buffer *m_readBuf;
+    Buffer *m_writeBuf;
     // http 协议
-    HttpRequest* m_request;
-    HttpResponse* m_response;
+    HttpRequest *m_request;
+    HttpResponse *m_response;
 };
+
+#endif

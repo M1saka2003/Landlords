@@ -1,13 +1,10 @@
-#pragma once
+#ifndef SERVER_CHANNEL
+#define SERVER_CHANNEL
 
 #include <functional>
 
-// 定义函数指针
-// typedef int(*handleFunc)(void* arg);
-// using handleFunc = int(*)(void*);
-
 // 定义文件描述符的读写事件
-enum class FDEvent {
+enum class [[maybe_unused]]FDEvent {
     TimeOut = 0x01,
     ReadEvent = 0x02,
     WriteEvent = 0x04
@@ -30,14 +27,14 @@ public:
     void writeEventEnable(bool flag);
 
     // 判断是否需要检测文件描述符的写事件
-    bool isWriteEventEnable();
+    [[maybe_unused]][[nodiscard]] bool isWriteEventEnable() const;
 
     // 取出私有成员的值
-    inline int getEvent() {
+    [[nodiscard]] int getEvent() const {
         return m_events;
     }
 
-    inline int getSocket() {
+    [[nodiscard]] int getSocket() const {
         return m_fd;
     }
 
@@ -54,3 +51,4 @@ private:
     void *m_arg;
 };
 
+#endif

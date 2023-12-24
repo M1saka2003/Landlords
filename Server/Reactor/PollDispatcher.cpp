@@ -20,7 +20,7 @@ PollDispatcher::~PollDispatcher() {
 }
 
 int PollDispatcher::add() {
-    int events = 0;
+    short events = 0;
     if (m_channel->getEvent() & (int) FDEvent::ReadEvent) {
         events |= POLLIN;
     }
@@ -61,7 +61,7 @@ int PollDispatcher::remove() {
 }
 
 int PollDispatcher::modify() {
-    int events = 0;
+    short events = 0;
     if (m_channel->getEvent() & (int) FDEvent::ReadEvent) {
         events |= POLLIN;
     }

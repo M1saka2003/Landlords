@@ -1,9 +1,9 @@
-#pragma once
+#ifndef SERVER_THREADPOOL
+#define SERVER_THREADPOOL
+
 #include "EventLoop.h"
 #include "WorkerThread.h"
 #include <vector>
-
-using namespace std;
 
 // 定义线程池
 class ThreadPool {
@@ -23,7 +23,8 @@ private:
     EventLoop *m_mainLoop;
     bool m_isStart;
     int m_threadNum;
-    vector<WorkerThread *> m_workerThreads;
+    std::vector<WorkerThread *> m_workerThreads;
     int m_index;
 };
 
+#endif

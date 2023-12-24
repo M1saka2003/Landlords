@@ -1,29 +1,22 @@
 #include "Dispatcher.h"
 
-Dispatcher::Dispatcher(EventLoop* evloop) : m_evLoop(evloop)
-{
+Dispatcher::Dispatcher(EventLoop *evloop) : m_evLoop(evloop) {
 }
 
-Dispatcher::~Dispatcher()
-{
-}
+Dispatcher::~Dispatcher() = default;
 
-int Dispatcher::add()
-{
+int Dispatcher::add() {
     return 0;
 }
 
-int Dispatcher::remove()
-{
+int Dispatcher::remove() {
     return 0;
 }
 
-int Dispatcher::modify()
-{
+int Dispatcher::modify() {
     return 0;
 }
 
-int Dispatcher::dispatch(int timeout)
-{
+int Dispatcher::dispatch(int timeout) {
     return 0;
 }

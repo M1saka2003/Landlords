@@ -1,16 +1,15 @@
-#pragma once
+#ifndef SERVER_DISPATCHER
+#define SERVER_DISPATCHER
 
 #include "Channel.h"
 #include "EventLoop.h"
 #include <string>
 
-using namespace std;
-
 class EventLoop;
 
 class Dispatcher {
 public:
-    Dispatcher(EventLoop *evloop);
+    explicit Dispatcher(EventLoop *evloop);
 
     virtual ~Dispatcher();
 
@@ -23,14 +22,17 @@ public:
     // 修改
     virtual int modify();
 
-    // 事件监测
-    virtual int dispatch(int timeout = 2); // 单位: s
+    // 事件监测,单位: s
+    virtual int dispatch(int timeout);
+
     inline void setChannel(Channel *channel) {
         m_channel = channel;
     }
 
 protected:
-    string m_name = string();
-    Channel *m_channel;
+    std::string m_name{};
+    Channel *m_channel{};
     EventLoop *m_evLoop;
 };
+
+#endif

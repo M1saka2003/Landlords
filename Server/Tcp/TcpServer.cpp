@@ -60,7 +60,7 @@ void TcpServer::run() {
     m_threadPool->run();
     // 添加检测的任务
     // 初始化一个channel实例
-    Channel *channel = new Channel(m_lfd, FDEvent::ReadEvent, acceptConnection, nullptr, nullptr, this);
+    auto *channel = new Channel(m_lfd, FDEvent::ReadEvent, acceptConnection, nullptr, nullptr, this);
     m_mainLoop->addTask(channel, ElemType::ADD);
     // 启动反应堆模型
     m_mainLoop->run();

@@ -1,7 +1,7 @@
 #include "Dispatcher.h"
 #include <sys/select.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "SelectDispatcher.h"
 
 SelectDispatcher::SelectDispatcher(EventLoop *evloop) : Dispatcher(evloop) {
@@ -10,8 +10,7 @@ SelectDispatcher::SelectDispatcher(EventLoop *evloop) : Dispatcher(evloop) {
     m_name = "Select";
 }
 
-SelectDispatcher::~SelectDispatcher() {
-}
+SelectDispatcher::~SelectDispatcher() = default;
 
 int SelectDispatcher::add() {
     if (m_channel->getSocket() >= m_maxSize) {
@@ -41,7 +40,7 @@ int SelectDispatcher::dispatch(int timeout) {
     val.tv_usec = 0;
     fd_set rdtmp = m_readSet;
     fd_set wrtmp = m_writeSet;
-    int count = select(m_maxSize, &rdtmp, &wrtmp, NULL, &val);
+    int count = select(m_maxSize, &rdtmp, &wrtmp, nullptr, &val);
     if (count == -1) {
         perror("select");
         exit(0);
