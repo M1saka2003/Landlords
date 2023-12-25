@@ -1,5 +1,4 @@
 #include "Channel.h"
-
 #include <utility>
 
 Channel::Channel(int fd, FDEvent events, handleFunc readFunc, handleFunc writeFunc, handleFunc destroyFunc, void *arg) {

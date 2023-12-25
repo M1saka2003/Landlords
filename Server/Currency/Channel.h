@@ -38,7 +38,7 @@ public:
         return m_fd;
     }
 
-    inline const void *getArg() {
+    const void *getArg() {
         return m_arg;
     }
 

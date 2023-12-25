@@ -24,7 +24,6 @@ int SelectDispatcher::remove() {
     clearFdSet();
     // 通过 channel 释放对应的 TcpConnection 资源
     m_channel->destroyCallback(const_cast<void *>(m_channel->getArg()));
-
     return 0;
 }
 

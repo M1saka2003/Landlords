@@ -7,8 +7,6 @@
 #include "HttpRequest.h"
 #include "HttpResponse.h"
 
-//#define MSG_SEND_AUTO
-
 class TcpConnection {
 public:
     TcpConnection(int fd, EventLoop *evloop);

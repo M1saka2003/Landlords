@@ -7,9 +7,9 @@
 #include <string>
 #include <sys/select.h>
 
-class SelectDispatcher : public Dispatcher {
+class [[maybe_unused]]SelectDispatcher : public Dispatcher {
 public:
-    explicit SelectDispatcher(EventLoop *evloop);
+    [[maybe_unused]]explicit SelectDispatcher(EventLoop *evloop);
 
     ~SelectDispatcher() override;
 

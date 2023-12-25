@@ -13,7 +13,7 @@ EventLoop::EventLoop(const std::string &threadName) {
     m_isQuit = true;    // 默认没有启动
     m_threadID = std::this_thread::get_id();
     m_threadName = threadName.empty() ? "MainThread" : threadName;
-    m_dispatcher = new SelectDispatcher(this);
+    m_dispatcher = new EpollDispatcher(this);
     // map
     m_channelMap.clear();
     int ret = socketpair(AF_UNIX, SOCK_STREAM, 0, m_socketPair);
@@ -21,7 +21,7 @@ EventLoop::EventLoop(const std::string &threadName) {
         perror("socketpair");
         exit(0);
     }
-#if 0
+#if false
     // 指定规则: evLoop->socketPair[0] 发送数据, evLoop->socketPair[1] 接收数据
     Channel* channel = new Channel(m_socketPair[1], FDEvent::ReadEvent,readLocalMessage, nullptr, nullptr, this);
 #else
@@ -90,6 +90,7 @@ int EventLoop::addTask(Channel *channel, ElemType type) {
     else {
         // 主线程 -- 告诉子线程处理任务队列中的任务
         // 1. 子线程在工作 2. 子线程被阻塞了:select, poll, epoll
+        // 在创建tcpConnection时,主线程从TcpServer中的线程池拿出的EventLoop操作,此时操作子反应堆的是主线程
         taskWakeup();
     }
     return 0;

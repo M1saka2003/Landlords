@@ -35,7 +35,6 @@ int EpollDispatcher::remove() {
     }
     // 通过 channel 释放对应的 TcpConnection 资源
     m_channel->destroyCallback(const_cast<void *>(m_channel->getArg()));
-
     return ret;
 }
 
@@ -53,11 +52,7 @@ int EpollDispatcher::dispatch(int timeout) {
     for (int i = 0; i < count; ++i) {
         auto events = m_events[i].events;
         int fd = m_events[i].data.fd;
-        if (events & EPOLLERR || events & EPOLLHUP) {
-            // 对方断开了连接, 删除 fd
-            // epollRemove(Channel, evLoop);
-            continue;
-        }
+        
         if (events & EPOLLIN) {
             m_evLoop->eventActive(fd, (int) FDEvent::ReadEvent);
         }

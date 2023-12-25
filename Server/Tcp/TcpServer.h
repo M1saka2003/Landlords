@@ -21,7 +21,7 @@ private:
     ThreadPool *m_threadPool;
     int m_lfd{};
     unsigned short m_port;
-    [[maybe_unused]]int m_threadNum;
+    int m_threadNum;
 
 };
 

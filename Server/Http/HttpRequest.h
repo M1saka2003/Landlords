@@ -46,7 +46,7 @@ public:
     static std::string decodeMsg(std::string from);
 
     // MIME
-    static const std::string getFileType(const std::string& name);
+    static std::string getFileType(std::string_view name);
 
     static void sendDir(std::string dirName, Buffer *sendBuf, int cfd);
 

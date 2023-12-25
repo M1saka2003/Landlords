@@ -41,7 +41,7 @@ public:
         return m_data + m_readPos;
     }
 
-    std::size_t readPosIncrease(int count) {
+    std::size_t readPosIncrease(std::size_t count) {
         m_readPos += count;
         return m_readPos;
     }

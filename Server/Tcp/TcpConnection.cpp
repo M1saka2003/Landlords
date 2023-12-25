@@ -1,13 +1,14 @@
 #include "TcpConnection.h"
 #include "HttpRequest.h"
 #include "Log.h"
+#include <iostream>
 
 int TcpConnection::processRead(void *arg) {
+
     auto *conn = reinterpret_cast<TcpConnection *>(arg);
     // 接收数据
     int socket = conn->m_channel->getSocket();
     int count = conn->m_readBuf->socketRead(socket);
-
     Debug("接收到的http请求数据: %s", conn->m_readBuf->data());
     if (count > 0) {
         // 接收到了 http 请求, 解析http请求
@@ -20,8 +21,8 @@ int TcpConnection::processRead(void *arg) {
             conn->m_writeBuf->appendString(errMsg);
         }
     }
-
     // 断开连接
+    // 这里的DELETE事件由EventLoop调用删除,而不是反应堆轮询做出调用
     conn->m_evLoop->addTask(conn->m_channel, ElemType::DELETE);
     return 0;
 }
@@ -64,8 +65,7 @@ TcpConnection::TcpConnection(int fd, EventLoop *evloop) {
 }
 
 TcpConnection::~TcpConnection() {
-    if (m_readBuf && m_readBuf->readableSize() == 0 &&
-        m_writeBuf && m_writeBuf->readableSize() == 0) {
+    if (m_readBuf && m_readBuf->readableSize() == 0 && m_writeBuf && m_writeBuf->readableSize() == 0) {
         delete m_readBuf;
         delete m_writeBuf;
         delete m_request;

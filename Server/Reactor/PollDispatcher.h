@@ -8,9 +8,9 @@
 #include <poll.h>
 
 
-class PollDispatcher : public Dispatcher {
+class[[maybe_unused]] PollDispatcher : public Dispatcher {
 public:
-    explicit PollDispatcher(EventLoop *evloop);
+    [[maybe_unused]]explicit PollDispatcher(EventLoop *evloop);
 
     ~PollDispatcher() override;
 

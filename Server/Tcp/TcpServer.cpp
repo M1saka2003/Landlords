@@ -41,7 +41,7 @@ void TcpServer::setListen() {
     addr.sin_family = AF_INET;
     addr.sin_port = htons(m_port);
     addr.sin_addr.s_addr = INADDR_ANY;
-    ret = bind(m_lfd, (struct sockaddr *) &addr, sizeof addr);
+    ret = bind(m_lfd, reinterpret_cast<sockaddr *>(&addr), sizeof addr);
     if (ret == -1) {
         perror("bind");
         return;
