@@ -1,8 +1,0 @@
-# ninja log v5
-9	766	7252983302277783	Currency/CMakeFiles/Currency.dir/Channel.cpp.obj	7683189a23193f44
-30	1350	7252983308102945	Reactor/CMakeFiles/Reactor.dir/Dispatcher.cpp.obj	fd4e02bda0e503db
-13	1437	7252983308953957	Http/CMakeFiles/Http.dir/HttpResponse.cpp.obj	18e53d4f37b46d52
-53	1474	7252983309349855	Thread/CMakeFiles/Thread.dir/ThreadPool.cpp.obj	b02da7f234f96799
-48	1542	7252983310033558	Tcp/CMakeFiles/Tcp.dir/TcpConnection.cpp.obj	9fe5d45ab39d29af
-60	1548	7252983310103663	Thread/CMakeFiles/Thread.dir/WorkerThread.cpp.obj	79a200efe170b512
-1	1561	7252983310235841	CMakeFiles/Server.dir/main.cpp.obj	2cf3e83cec91c03
