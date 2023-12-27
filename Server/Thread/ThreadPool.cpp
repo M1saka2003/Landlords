@@ -36,7 +36,6 @@ EventLoop *ThreadPool::takeWorkerEventLoop() {
     if (m_mainLoop->getThreadID() != std::this_thread::get_id()) {
         exit(0);
     }
-    // 从线程池中找一个子线程, 然后取出里边的反应堆实例
     EventLoop *evLoop = m_mainLoop;
     if (m_threadNum > 0) {
         evLoop = m_workerThreads[m_index]->getEventLoop();

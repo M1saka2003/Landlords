@@ -4,5 +4,5 @@ project(Thread)
 set(CMAKE_CXX_STANDARD 20)
 
 aux_source_directory(./ SRC)
-# Éú³É¾²Ì¬¿â
+
 add_library(Thread STATIC ${SRC})

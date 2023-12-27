@@ -1,0 +1,180 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "/mnt/c/Users/M1saka/Desktop/Landlords/Server/bin/Server"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 6,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				},
+				{
+					"fragment" : "-std=gnu++20"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/mnt/c/Users/M1saka/Desktop/Landlords/Server/Currency"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/mnt/c/Users/M1saka/Desktop/Landlords/Server/Http"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/mnt/c/Users/M1saka/Desktop/Landlords/Server/Reactor"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/mnt/c/Users/M1saka/Desktop/Landlords/Server/Tcp"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/mnt/c/Users/M1saka/Desktop/Landlords/Server/Thread"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 1,
+			"id" : "Currency::@e0e0b9537ea291255746"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "Http::@93b176610b0a8797b8f4"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "Reactor::@6ae21f0ba83a4999a265"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "Tcp::@0e1c582e04d29b9aaa95"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "Thread::@d653cdf9f3640b15a7d7"
+		}
+	],
+	"id" : "Server::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "Tcp/libTcp.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "Http/libHttp.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "Reactor/libReactor.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "Thread/libThread.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "Currency/libCurrency.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Server",
+	"nameOnDisk" : "Server",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "main.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

@@ -1,7 +1,7 @@
 #include "WorkerThread.h"
 #include <iostream>
 
-// 子线程的回调函数
+// 回调(子线程)
 void WorkerThread::running() {
     m_mutex.lock();
     m_evLoop = new EventLoop(m_name);

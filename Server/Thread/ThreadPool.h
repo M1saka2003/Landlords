@@ -5,7 +5,6 @@
 #include "WorkerThread.h"
 #include <vector>
 
-// 定义线程池
 class ThreadPool {
 public:
     ThreadPool(EventLoop *mainLoop, int count);

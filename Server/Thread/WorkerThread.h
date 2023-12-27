@@ -15,7 +15,7 @@ public:
     // 启动线程
     void run();
 
-    inline EventLoop *getEventLoop() {
+    EventLoop *getEventLoop() {
         return m_evLoop;
     }
 
