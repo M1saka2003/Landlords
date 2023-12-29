@@ -1,5 +1,5 @@
-#ifndef SERVER_TCPCONNECTION
-#define SERVER_TCPCONNECTION
+#ifndef SERVER_TCPCONNECTION_H
+#define SERVER_TCPCONNECTION_H
 
 #include "EventLoop.h"
 #include "Buffer.h"

@@ -1,15 +1,13 @@
-#ifndef SERVER_SELECTDISPATCHER
-#define SERVER_SELECTDISPATCHER
+#ifndef SERVER_SELECTDISPATCHER_H
+#define SERVER_SELECTDISPATCHER_H
 
-#include "Channel.h"
 #include "EventLoop.h"
 #include "Dispatcher.h"
-#include <string>
 #include <sys/select.h>
 
-class [[maybe_unused]]SelectDispatcher : public Dispatcher {
+class [[maybe_unused]]SelectDispatcher final : public Dispatcher {
 public:
-    [[maybe_unused]]explicit SelectDispatcher(EventLoop *evloop);
+    [[maybe_unused]] explicit SelectDispatcher(EventLoop *evloop);
 
     ~SelectDispatcher() override;
 

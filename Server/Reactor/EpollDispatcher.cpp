@@ -9,7 +9,7 @@
         perror("epoll_create");
         exit(0);
     }
-    m_events = new struct epoll_event[m_maxNode];
+    m_events = new epoll_event[m_maxNode];
     m_name = "Epoll";
 }
 
@@ -19,7 +19,7 @@ EpollDispatcher::~EpollDispatcher() {
 }
 
 int EpollDispatcher::add() {
-    int ret = epollCtl(EPOLL_CTL_ADD);
+    const int ret = epollCtl(EPOLL_CTL_ADD);
     if (ret == -1) {
         perror("epoll_crl add");
         exit(0);
@@ -28,7 +28,7 @@ int EpollDispatcher::add() {
 }
 
 int EpollDispatcher::remove() {
-    int ret = epollCtl(EPOLL_CTL_DEL);
+    const int ret = epollCtl(EPOLL_CTL_DEL);
     if (ret == -1) {
         perror("epoll_crl delete");
         exit(0);
@@ -39,7 +39,7 @@ int EpollDispatcher::remove() {
 }
 
 int EpollDispatcher::modify() {
-    int ret = epollCtl(EPOLL_CTL_MOD);
+    const int ret = epollCtl(EPOLL_CTL_MOD);
     if (ret == -1) {
         perror("epoll_crl modify");
         exit(0);
@@ -47,33 +47,33 @@ int EpollDispatcher::modify() {
     return ret;
 }
 
-int EpollDispatcher::dispatch(int timeout) {
-    int count = epoll_wait(m_epfd, m_events, m_maxNode, timeout * 1000);
+int EpollDispatcher::dispatch(const int timeout) {
+    const int count = epoll_wait(m_epfd, m_events, m_maxNode, timeout * 1000);
     for (int i = 0; i < count; ++i) {
-        auto events = m_events[i].events;
-        int fd = m_events[i].data.fd;
+        const auto events = m_events[i].events;
+        const int fd = m_events[i].data.fd;
         
         if (events & EPOLLIN) {
-            m_evLoop->eventActive(fd, (int) FDEvent::ReadEvent);
+            m_evLoop->eventActive(fd, static_cast<int>(FDEvent::ReadEvent));
         }
         if (events & EPOLLOUT) {
-            m_evLoop->eventActive(fd, (int) FDEvent::WriteEvent);
+            m_evLoop->eventActive(fd, static_cast<int>(FDEvent::WriteEvent));
         }
     }
     return 0;
 }
 
-int EpollDispatcher::epollCtl(int op) {
+int EpollDispatcher::epollCtl(const int op) const {
     struct epoll_event ev{};
     ev.data.fd = m_channel->getSocket();
     int events = 0;
-    if (m_channel->getEvent() & (int) FDEvent::ReadEvent) {
+    if (m_channel->getEvent() & static_cast<int>(FDEvent::ReadEvent)) {
         events |= EPOLLIN;
     }
-    if (m_channel->getEvent() & (int) FDEvent::WriteEvent) {
+    if (m_channel->getEvent() & static_cast<int>(FDEvent::WriteEvent)) {
         events |= EPOLLOUT;
     }
     ev.events = events;
-    int ret = epoll_ctl(m_epfd, op, m_channel->getSocket(), &ev);
+    const int ret = epoll_ctl(m_epfd, op, m_channel->getSocket(), &ev);
     return ret;
 }

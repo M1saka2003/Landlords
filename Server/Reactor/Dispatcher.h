@@ -1,5 +1,5 @@
-#ifndef SERVER_DISPATCHER
-#define SERVER_DISPATCHER
+#ifndef SERVER_DISPATCHER_H
+#define SERVER_DISPATCHER_H
 
 #include "Channel.h"
 #include "EventLoop.h"

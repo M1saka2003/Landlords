@@ -2,7 +2,7 @@
 #include <cassert>
 #include <cstdlib>
 
-ThreadPool::ThreadPool(EventLoop *mainLoop, int count) {
+ThreadPool::ThreadPool(EventLoop *mainLoop, const int count) {
     m_index = 0;
     m_isStart = false;
     m_mainLoop = mainLoop;
@@ -11,7 +11,7 @@ ThreadPool::ThreadPool(EventLoop *mainLoop, int count) {
 }
 
 ThreadPool::~ThreadPool() {
-    for (auto item: m_workerThreads) {
+    for (const auto item: m_workerThreads) {
         delete item;
     }
 }

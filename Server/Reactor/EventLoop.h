@@ -1,5 +1,5 @@
-#ifndef SERVER_EVENTLOOP
-#define SERVER_EVENTLOOP
+#ifndef SERVER_EVENTLOOP_H
+#define SERVER_EVENTLOOP_H
 
 #include "Dispatcher.h"
 #include "Channel.h"
@@ -10,11 +10,14 @@
 
 // 处理该节点中的channel的方式
 enum class ElemType : char {
-    ADD, DELETE, MODIFY
+    ADD,
+    DELETE,
+    MODIFY
 };
+
 // 定义任务队列的节点
 struct ChannelElement {
-    ElemType type;   // 如何处理该节点中的channel
+    ElemType type; // 如何处理该节点中的channel
     Channel *channel;
 };
 
@@ -29,7 +32,7 @@ public:
     ~EventLoop();
 
     // 启动反应堆模型
-    int run();
+    [[noreturn]] int run();
 
     // 处理别激活的文件fd
     int eventActive(int fd, int event);
@@ -43,28 +46,28 @@ public:
     // 处理dispatcher中的节点
     int add(Channel *channel);
 
-    int remove(Channel *channel);
+    int remove(Channel *channel) const;
 
-    int modify(Channel *channel);
+    int modify(Channel *channel) const;
 
     // 释放channel
-    int freeChannel(Channel *channel);
+    int freeChannel(const Channel *channel);
 
-    int readMessage();
+    int readMessage() const;
 
     // 返回线程ID
     std::thread::id getThreadID() {
         return m_threadID;
     }
 
-    [[maybe_unused]]std::string getThreadName() {
+    [[maybe_unused]] std::string getThreadName() {
         return m_threadName;
     }
 
     static int readLocalMessage(void *arg);
 
 private:
-    void taskWakeup();
+    void taskWakeup() const;
 
 private:
     bool m_isQuit;
@@ -78,7 +81,7 @@ private:
     std::thread::id m_threadID;
     std::string m_threadName;
     std::mutex m_mutex;
-    int m_socketPair[2]{};  // 存储本地通信的fd 通过socketpair 初始化
+    int m_socketPair[2]{}; // 存储本地通信的fd 通过socketpair 初始化
 };
 
 #endif

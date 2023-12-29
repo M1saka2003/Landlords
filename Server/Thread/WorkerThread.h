@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SERVER_WORKERTHREAD_H
+#define SERVER_WORKERTHREAD_H
 
 #include <thread>
 #include <mutex>
@@ -15,7 +16,7 @@ public:
     // 启动线程
     void run();
 
-    EventLoop *getEventLoop() {
+    EventLoop *getEventLoop() const {
         return m_evLoop;
     }
 
@@ -23,11 +24,12 @@ private:
     void running();
 
 private:
-    std::thread *m_thread;   // 保存线程的实例
+    std::thread *m_thread; // 保存线程的实例
     std::string m_name;
-    std::mutex m_mutex;  // 互斥锁
-    std::condition_variable m_cond;    // 条件变量
-    EventLoop *m_evLoop;   // 反应堆模型
+    std::mutex m_mutex; // 互斥锁
+    std::condition_variable m_cond; // 条件变量
+    EventLoop *m_evLoop; // 反应堆模型
     std::thread::id m_threadID; // ID
 };
 
+#endif
