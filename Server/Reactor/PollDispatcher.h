@@ -1,14 +1,12 @@
-#ifndef SERVER_POLLDISPATCHER
-#define SERVER_POLLDISPATCHER
+#ifndef SERVER_POLLDISPATCHER_H
+#define SERVER_POLLDISPATCHER_H
 
-#include "Channel.h"
 #include "EventLoop.h"
 #include "Dispatcher.h"
-#include <string>
 #include <poll.h>
 
 
-class[[maybe_unused]] PollDispatcher : public Dispatcher {
+class[[maybe_unused]] PollDispatcher final: public Dispatcher {
 public:
     [[maybe_unused]]explicit PollDispatcher(EventLoop *evloop);
 

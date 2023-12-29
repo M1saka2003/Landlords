@@ -1,5 +1,5 @@
-#ifndef SERVER_HTTPRESPONSE
-#define SERVER_HTTPRESPONSE
+#ifndef SERVER_HTTPRESPONSE_H
+#define SERVER_HTTPRESPONSE_H
 
 #include "Buffer.h"
 #include <map>
@@ -23,7 +23,7 @@ public:
 
     ~HttpResponse();
 
-    std::function<void(const std::string, struct Buffer *, int)> sendDataFunc;
+    std::function<void(std::string,Buffer *, int)> sendDataFunc;
 
     // 添加响应头
     void addHeader(const std::string &key, const std::string &value);
@@ -35,7 +35,7 @@ public:
         m_fileName = std::move(name);
     }
 
-    void setStatusCode(StatusCode code) {
+    void setStatusCode(const StatusCode& code) {
         m_statusCode = code;
     }
 

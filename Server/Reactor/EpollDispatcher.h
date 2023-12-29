@@ -1,15 +1,13 @@
-#ifndef SERVER_EPOLLDISPATCHER
-#define SERVER_EPOLLDISPATCHER
+#ifndef SERVER_EPOLLDISPATCHER_H
+#define SERVER_EPOLLDISPATCHER_H
 
-#include "Channel.h"
 #include "EventLoop.h"
 #include "Dispatcher.h"
-#include <string>
 #include <sys/epoll.h>
 
-class[[maybe_unused]]EpollDispatcher : public Dispatcher {
+class[[maybe_unused]]EpollDispatcher final : public Dispatcher {
 public:
-    [[maybe_unused]]explicit EpollDispatcher(EventLoop *evloop);
+    [[maybe_unused]] explicit EpollDispatcher(EventLoop *evloop);
 
     ~EpollDispatcher() override;
 
@@ -26,11 +24,9 @@ public:
     int dispatch(int timeout) override; // 单位: s
 
 private:
-    int epollCtl(int op);
-
-private:
+    [[nodiscard]] int epollCtl(int op) const;
     int m_epfd;
-    struct epoll_event *m_events;
+    epoll_event *m_events;
     const int m_maxNode = 520;
 };
 

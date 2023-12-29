@@ -21,10 +21,10 @@ PollDispatcher::~PollDispatcher() {
 
 int PollDispatcher::add() {
     short events = 0;
-    if (m_channel->getEvent() & (int) FDEvent::ReadEvent) {
+    if (m_channel->getEvent() & static_cast<int>(FDEvent::ReadEvent)) {
         events |= POLLIN;
     }
-    if (m_channel->getEvent() & (int) FDEvent::WriteEvent) {
+    if (m_channel->getEvent() & static_cast<int>(FDEvent::WriteEvent)) {
         events |= POLLOUT;
     }
     int i = 0;
@@ -62,10 +62,10 @@ int PollDispatcher::remove() {
 
 int PollDispatcher::modify() {
     short events = 0;
-    if (m_channel->getEvent() & (int) FDEvent::ReadEvent) {
+    if (m_channel->getEvent() & static_cast<int>(FDEvent::ReadEvent)) {
         events |= POLLIN;
     }
-    if (m_channel->getEvent() & (int) FDEvent::WriteEvent) {
+    if (m_channel->getEvent() & static_cast<int>(FDEvent::WriteEvent)) {
         events |= POLLOUT;
     }
     int i = 0;
@@ -81,9 +81,9 @@ int PollDispatcher::modify() {
     return 0;
 }
 
-int PollDispatcher::dispatch(int timeout) {
-    int count = poll(m_fds, m_maxfd + 1, timeout * 1000);
-    if (count == -1) {
+int PollDispatcher::dispatch(const int timeout) {
+    if (const int count = poll(m_fds, m_maxfd + 1, timeout * 1000);
+        count == -1) {
         perror("poll");
         exit(0);
     }
@@ -93,10 +93,10 @@ int PollDispatcher::dispatch(int timeout) {
         }
 
         if (m_fds[i].revents & POLLIN) {
-            m_evLoop->eventActive(m_fds[i].fd, (int) FDEvent::ReadEvent);
+            m_evLoop->eventActive(m_fds[i].fd, static_cast<int>(FDEvent::ReadEvent));
         }
         if (m_fds[i].revents & POLLOUT) {
-            m_evLoop->eventActive(m_fds[i].fd, (int) FDEvent::WriteEvent);
+            m_evLoop->eventActive(m_fds[i].fd, static_cast<int>(FDEvent::WriteEvent));
         }
     }
     return 0;

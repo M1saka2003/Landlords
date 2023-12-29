@@ -4,9 +4,9 @@
 #include "Log.h"
 
 int TcpServer::acceptConnection(void *arg) {
-    auto *server = static_cast<TcpServer *>(arg);
+    const auto *server = static_cast<TcpServer *>(arg);
     // 和客户端建立连接
-    int cfd = accept(server->m_lfd, nullptr, nullptr);
+    const int cfd = accept(server->m_lfd, nullptr, nullptr);
     // 从线程池中取出一个子线程的反应堆实例, 去处理这个cfd
     EventLoop *evLoop = server->m_threadPool->takeWorkerEventLoop();
     // 将cfd放到 TcpConnection中处理
@@ -14,7 +14,7 @@ int TcpServer::acceptConnection(void *arg) {
     return 0;
 }
 
-TcpServer::TcpServer(unsigned short port, int threadNum) {
+TcpServer::TcpServer(const unsigned short port, const int threadNum) {
     m_port = port;
     m_mainLoop = new EventLoop;
     m_threadNum = threadNum;
@@ -30,7 +30,7 @@ void TcpServer::setListen() {
         return;
     }
     // 2. 设置端口复用
-    int opt = 1;
+    constexpr int opt = 1;
     int ret = setsockopt(m_lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof opt);
     if (ret == -1) {
         perror("setsockopt");
@@ -50,7 +50,6 @@ void TcpServer::setListen() {
     ret = listen(m_lfd, 128);
     if (ret == -1) {
         perror("listen");
-        return;
     }
 }
 

@@ -1,5 +1,4 @@
 #include "WorkerThread.h"
-#include <iostream>
 
 // 回调(子线程)
 void WorkerThread::running() {
@@ -10,7 +9,7 @@ void WorkerThread::running() {
     m_evLoop->run();
 }
 
-WorkerThread::WorkerThread(int index) {
+WorkerThread::WorkerThread(const int index) {
     m_evLoop = nullptr;
     m_thread = nullptr;
     m_threadID = std::thread::id();
@@ -25,7 +24,7 @@ void WorkerThread::run() {
     // 创建子线程
     m_thread = new std::thread(&WorkerThread::running, this);
     // 阻塞主线程, 让当前函数不会直接结束
-    std::unique_lock<std::mutex> locker(m_mutex);
+    std::unique_lock locker(m_mutex);
     while (m_evLoop == nullptr) {
         m_cond.wait(locker);
     }

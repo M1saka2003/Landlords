@@ -1,5 +1,5 @@
-#ifndef SERVER_THREADPOOL
-#define SERVER_THREADPOOL
+#ifndef SERVER_THREADPOOL_H
+#define SERVER_THREADPOOL_H
 
 #include "EventLoop.h"
 #include "WorkerThread.h"

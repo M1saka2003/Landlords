@@ -14,19 +14,19 @@ void HttpResponse::addHeader(const std::string &key, const std::string &value) {
     if (key.empty() || value.empty()) {
         return;
     }
-    m_headers.insert(make_pair(key, value));
+    m_headers.insert(std::make_pair(key, value));
 }
 
-void HttpResponse::prepareMsg(Buffer *sendBuf, int socket) {
+void HttpResponse::prepareMsg(Buffer *sendBuf, const int socket) {
     // 状态行
 
     char tmp[1024] = {0};
-    int code = static_cast<int>(m_statusCode);
+    const int code = static_cast<int>(m_statusCode);
     sprintf(tmp, "HTTP/1.1 %d %s\r\n", code, m_info.at(code).data());
     sendBuf->appendString(tmp);
     // 响应头
-    for (auto &m_header: m_headers) {
-        sprintf(tmp, "%s: %s\r\n", m_header.first.data(), m_header.second.data());
+    for (auto &[key,value]: m_headers) {
+        sprintf(tmp, "%s: %s\r\n", key.data(), value.data());
         sendBuf->appendString(tmp);
     }
     // 空行

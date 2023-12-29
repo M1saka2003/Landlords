@@ -38,7 +38,7 @@ public:
         return m_fd;
     }
 
-    const void *getArg() {
+    [[nodiscard]] const void *getArg() const {
         return m_arg;
     }
 

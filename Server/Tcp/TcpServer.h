@@ -1,5 +1,5 @@
-#ifndef SERVER_TCPSERVER
-#define SERVER_TCPSERVER
+#ifndef SERVER_TCPSERVER_H
+#define SERVER_TCPSERVER_H
 
 #include "EventLoop.h"
 #include "ThreadPool.h"

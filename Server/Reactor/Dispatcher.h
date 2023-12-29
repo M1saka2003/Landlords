@@ -1,5 +1,5 @@
-#ifndef SERVER_DISPATCHER
-#define SERVER_DISPATCHER
+#ifndef SERVER_DISPATCHER_H
+#define SERVER_DISPATCHER_H
 
 #include "Channel.h"
 #include "EventLoop.h"
@@ -25,7 +25,7 @@ public:
     // 事件监测,单位: s
     virtual int dispatch(int timeout);
 
-    inline void setChannel(Channel *channel) {
+    void setChannel(Channel *channel) {
         m_channel = channel;
     }
 

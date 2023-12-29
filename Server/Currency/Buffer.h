@@ -13,12 +13,12 @@ public:
     void extendRoom(std::size_t size);
 
     // 得到剩余的可写的内存容量
-    [[nodiscard]]std::size_t writeableSize() const {
+    [[nodiscard]] std::size_t writeableSize() const {
         return m_capacity - m_writePos;
     }
 
     // 得到剩余的可读的内存容量
-    [[nodiscard]]std::size_t readableSize() const {
+    [[nodiscard]] std::size_t readableSize() const {
         return m_writePos - m_readPos;
     }
 
@@ -32,16 +32,16 @@ public:
     int socketRead(int fd);
 
     // 根据\r\n取出一行, 找到其在数据块中的位置, 返回该位置
-    char *findCRLF();
+    [[nodiscard]] char *findCRLF() const;
 
     // 发送数据
-    std::size_t sendData(int socket);    // 指向内存的指针
+    std::size_t sendData(int socket); // 指向内存的指针
     // 得到读数据的起始位置
-    char *data() {
+    [[nodiscard]] char *data() const {
         return m_data + m_readPos;
     }
 
-    std::size_t readPosIncrease(std::size_t count) {
+    std::size_t readPosIncrease(const std::size_t count) {
         m_readPos += count;
         return m_readPos;
     }
@@ -54,4 +54,3 @@ private:
 };
 
 #endif
-
