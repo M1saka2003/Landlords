@@ -68,7 +68,7 @@ int Buffer::appendString(const std::string &data) {
 }
 
 int Buffer::socketRead(const int fd) {
-    struct iovec vec[2];
+    iovec vec[2];
     // 初始化数组元素
     const std::size_t writeable = writeableSize();
     vec[0].iov_base = m_data + m_writePos;

@@ -262,7 +262,7 @@ std::string HttpRequest::getFileType(const std::string_view name) {
 void HttpRequest::sendDir(const std::string &dirName, Buffer *sendBuf, const int cfd) {
     char buf[4096]{};
     sprintf(buf, "<html><head><title>%s</title></head><body><table>", dirName.data());
-    struct dirent **namelist;
+    dirent **namelist;
     const int num = scandir(dirName.data(), &namelist, nullptr, alphasort);
     for (int i = 0; i < num; ++i) {
         // 取出文件名 namelist 指向的是一个指针数组 struct dirent* tmp[]
@@ -299,7 +299,7 @@ void HttpRequest::sendDir(const std::string &dirName, Buffer *sendBuf, const int
     free(namelist);
 }
 
-void HttpRequest::sendFile(const std::string &fileName, Buffer *sendBuf, const int cfd) noexcept {
+void HttpRequest::sendFile(const std::string &fileName, Buffer *sendBuf, const int cfd) {
     // 1. 打开文件
     const int fd = open(fileName.data(), O_RDONLY);
     assert(fd > 0);

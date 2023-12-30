@@ -65,7 +65,7 @@ int EpollDispatcher::dispatch(const int timeout) {
 }
 
 int EpollDispatcher::epollCtl(const int op) const {
-    struct epoll_event ev{};
+    epoll_event ev{};
     ev.data.fd = m_channel->getSocket();
     int events = 0;
     if (m_channel->getEvent() & static_cast<int>(FDEvent::ReadEvent)) {

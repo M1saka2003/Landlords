@@ -38,7 +38,7 @@ public:
     int eventActive(int fd, int event);
 
     // 添加任务到任务队列
-    int addTask(struct Channel *channel, ElemType type);
+    int addTask(Channel *channel, ElemType type);
 
     // 处理任务队列中的任务
     int processTaskQ();

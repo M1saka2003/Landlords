@@ -50,7 +50,7 @@ public:
 
     static void sendDir(const std::string &dirName, Buffer *sendBuf, int cfd);
 
-    static void sendFile(const std::string &fileName, Buffer *sendBuf, int cfd) noexcept;
+    static void sendFile(const std::string &fileName, Buffer *sendBuf, int cfd);
 
     void setMethod(std::string method) {
         m_method = std::move(method);

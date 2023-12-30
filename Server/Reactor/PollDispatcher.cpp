@@ -6,7 +6,7 @@
 
 PollDispatcher::PollDispatcher(EventLoop *evloop) : Dispatcher(evloop) {
     m_maxfd = 0;
-    m_fds = new struct pollfd[m_maxNode];
+    m_fds = new pollfd[m_maxNode];
     for (int i = 0; i < m_maxNode; ++i) {
         m_fds[i].fd = -1;
         m_fds[i].events = 0;

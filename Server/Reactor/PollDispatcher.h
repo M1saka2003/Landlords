@@ -1,7 +1,6 @@
 #ifndef SERVER_POLLDISPATCHER_H
 #define SERVER_POLLDISPATCHER_H
 
-#include "EventLoop.h"
 #include "Dispatcher.h"
 #include <poll.h>
 
@@ -26,7 +25,7 @@ public:
 
 private:
     int m_maxfd;
-    struct pollfd *m_fds;
+    pollfd *m_fds;
     const int m_maxNode = 1024;
 };
 

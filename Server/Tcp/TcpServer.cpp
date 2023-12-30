@@ -37,7 +37,7 @@ void TcpServer::setListen() {
         return;
     }
     // 3. 绑定
-    struct sockaddr_in addr{};
+    sockaddr_in addr{};
     addr.sin_family = AF_INET;
     addr.sin_port = htons(m_port);
     addr.sin_addr.s_addr = INADDR_ANY;

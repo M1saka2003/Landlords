@@ -34,7 +34,7 @@ int SelectDispatcher::modify() {
 }
 
 int SelectDispatcher::dispatch(const int timeout) {
-    struct timeval val{};
+    timeval val{};
     val.tv_sec = timeout;
     val.tv_usec = 0;
     fd_set rdtmp = m_readSet;

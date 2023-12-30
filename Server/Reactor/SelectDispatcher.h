@@ -28,7 +28,6 @@ private:
 
     void clearFdSet();
 
-private:
     fd_set m_readSet{};
     fd_set m_writeSet{};
     const int m_maxSize = 1024;
